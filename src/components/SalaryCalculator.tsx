@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { calculateSalary } from "@/lib/salary";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const RM = (n: number) => `RM ${n.toLocaleString("en-MY", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
@@ -13,7 +14,7 @@ export default function SalaryCalculator() {
   const [isMarried, setIsMarried] = useState(false);
   const [spouseWorking, setSpouseWorking] = useState(true);
   const [numChildren, setNumChildren] = useState(0);
-  const [lang, setLang] = useState<"bm" | "en">("bm");
+  const { lang } = useLanguage();
 
   const effectiveGross = parseFloat(customGross) || gross;
   const result = useMemo(() => calculateSalary({ gross: effectiveGross, isMarried, spouseWorking, numChildren }), [effectiveGross, isMarried, spouseWorking, numChildren]);
@@ -106,20 +107,10 @@ export default function SalaryCalculator() {
     <div className="min-h-screen">
       <div className="hero-bg">
         <div className="max-w-2xl mx-auto px-4 pt-10 pb-12 space-y-6">
-          {/* Header + lang toggle */}
+          {/* Header */}
           <div className="animate-in text-center space-y-2 pt-4">
             <h1 className="text-3xl font-black text-white drop-shadow-lg">{s.title}</h1>
             <p className="text-white/60 text-sm">{s.subtitle}</p>
-            <div className="flex justify-center mt-3">
-              <div className="flex items-center gap-1 bg-white/10 rounded-lg p-0.5">
-                {(["bm", "en"] as const).map(l => (
-                  <button key={l} onClick={() => setLang(l)}
-                    className={`text-xs px-3 py-1.5 rounded-md font-semibold transition-colors ${lang === l ? "bg-yellow-500 text-black" : "text-white/60 hover:text-white"}`}>
-                    {l === "bm" ? "BM" : "EN"}
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Input card */}

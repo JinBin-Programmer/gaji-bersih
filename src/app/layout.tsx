@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
 import Link from "next/link";
+import { LanguageProvider } from "@/contexts/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://gaji.themalaysianinfo.online"),
@@ -34,29 +36,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen flex flex-col">
-        <nav className="sticky top-0 z-50 bg-black/70 backdrop-blur border-b border-white/10 shadow-sm">
-          <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 font-bold text-white text-lg">
-              <span className="text-2xl">💰</span>
-              <div>
-                <div className="leading-none">Gaji Bersih MY</div>
-                <div className="text-[10px] text-white/40 font-normal leading-none">Malaysia Salary Calculator</div>
+        <LanguageProvider>
+          <nav className="sticky top-0 z-50 bg-black/70 backdrop-blur border-b border-white/10 shadow-sm">
+            <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+              <Link href="/" className="flex items-center gap-2 font-bold text-white text-lg">
+                <span className="text-2xl">💰</span>
+                <div>
+                  <div className="leading-none">Gaji Bersih MY</div>
+                  <div className="text-[10px] text-white/40 font-normal leading-none">Malaysia Salary Calculator</div>
+                </div>
+              </Link>
+              <div className="flex items-center gap-3">
+                <div className="hidden sm:flex items-center gap-4 text-sm font-medium text-white/60">
+                  <Link href="/" className="hover:text-white transition-colors">Kalkulator</Link>
+                  <Link href="/about" className="hover:text-white transition-colors">Tentang</Link>
+                </div>
+                <LanguageToggle />
               </div>
-            </Link>
-            <div className="flex items-center gap-4 text-sm font-medium text-white/60">
-              <Link href="/" className="hover:text-white transition-colors">Kalkulator</Link>
-              <Link href="/about" className="hover:text-white transition-colors">Tentang</Link>
             </div>
-          </div>
-        </nav>
+          </nav>
 
-        <main className="flex-1">{children}</main>
+          <main className="flex-1">{children}</main>
 
-        <footer className="border-t border-white/10 bg-black/60 py-6 text-center text-xs text-white/30 space-y-1">
-          <p>Pengiraan berdasarkan kadar EPF, SOCSO, EIS dan PCB semasa · Based on current EPF, SOCSO, EIS & PCB rates</p>
-          <p className="text-white/20">* Anggaran sahaja. Semak dengan majikan atau LHDN untuk pengesahan. / For reference only.</p>
-          <p className="mt-2">© {new Date().getFullYear()} Kalkulator Gaji Bersih Malaysia</p>
-        </footer>
+          <footer className="border-t border-white/10 bg-black/60 py-6 text-center text-xs text-white/30 space-y-1">
+            <p>Pengiraan berdasarkan kadar EPF, SOCSO, EIS dan PCB semasa · Based on current EPF, SOCSO, EIS & PCB rates</p>
+            <p className="text-white/20">* Anggaran sahaja. Semak dengan majikan atau LHDN untuk pengesahan. / For reference only.</p>
+            <p className="mt-2">© {new Date().getFullYear()} Kalkulator Gaji Bersih Malaysia</p>
+          </footer>
+        </LanguageProvider>
       </body>
     </html>
   );
